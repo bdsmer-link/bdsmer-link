@@ -1,0 +1,177 @@
+.footer__waves1 {
+  position: absolute;
+  width: 110%;
+  height: 100%;
+  z-index: 5;
+  background-size: 60px 30px;
+  background-image: radial-gradient(
+    circle at 50% 100%,
+    #72675a 10%,
+    #ccac00 11%,
+    #ccac00 23%,
+    #72675a 24%,
+    #72675a 30%,
+    #c3aa5b 31%,
+    #c3aa5b 43%,
+    #72675a 44%,
+    #72675a 50%,
+    #e6c35c 51%,
+    #e6c35c 63%,
+    #72675a 64%,
+    #72675a 71%,
+    transparent 71%,
+    transparent
+  );
+
+  animation: waves 2s ease-in-out infinite;
+}
+
+.footer__waves2 {
+  position: absolute;
+  width: 110%;
+  height: 100%;
+  z-index: 1;
+  background-size: 60px 30px;
+  background-image: radial-gradient(
+      circle at 100% 150%,
+      #c3aa5b 24%,
+      #72675a 25%,
+      #72675a 28%,
+      #e6c619 29%,
+      #e6c619 36%,
+      #72675a 36%,
+      #72675a 40%,
+      transparent 40%,
+      transparent
+    ),
+    radial-gradient(
+      circle at 0 150%,
+      #c3aa5b 24%,
+      #72675a 25%,
+      #72675a 28%,
+      #e6c619 29%,
+      #e6c619 36%,
+      #72675a 36%,
+      #72675a 40%,
+      transparent 40%,
+      transparent
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      #72675a 5%,
+      #ccac00 6%,
+      #ccac00 15%,
+      #72675a 16%,
+      #72675a 20%,
+      #c3aa5b 21%,
+      #c3aa5b 30%,
+      #72675a 31%,
+      #72675a 35%,
+      #e6c619 36%,
+      #e6c619 45%,
+      #72675a 46%,
+      #72675a 49%,
+      transparent 50%,
+      transparent
+    ),
+    radial-gradient(
+      circle at 0 50%,
+      #72675a 5%,
+      #ccac00 6%,
+      #ccac00 15%,
+      #72675a 16%,
+      #72675a 20%,
+      #c3aa5b 21%,
+      #c3aa5b 30%,
+      #72675a 31%,
+      #72675a 35%,
+      #e6c619 36%,
+      #e6c619 45%,
+      #72675a 46%,
+      #72675a 49%,
+      transparent 50%,
+      transparent
+    );
+
+  animation: waves2 2s linear infinite;
+}
+
+.footer__waves3 {
+  position: absolute;
+  width: 110%;
+  height: 100%;
+  z-index: 10;
+  background-size: 60px 30px;
+  background-image: radial-gradient(
+      circle at 100% 150%,
+      #c3aa5b 24%,
+      #72675a 25%,
+      #72675a 28%,
+      #e6c619 29%,
+      #e6c619 36%,
+      #72675a 36%,
+      #72675a 40%,
+      transparent 40%,
+      transparent
+    ),
+    radial-gradient(
+      circle at 0 150%,
+      #c3aa5b 24%,
+      #72675a 25%,
+      #72675a 28%,
+      #e6c619 29%,
+      #e6c619 36%,
+      #72675a 36%,
+      #72675a 40%,
+      transparent 40%,
+      transparent
+    );
+
+  animation: waves2 2s linear infinite;
+}
+
+@keyframes waves {
+  0% {
+    left: 0px;
+    top: -1px;
+  }
+  25% {
+    left: -2px;
+    top: -2px;
+  }
+  50% {
+    left: -4px;
+    top: -1px;
+  }
+  75% {
+    left: -2px;
+    top: 0;
+  }
+  100% {
+    left: 0px;
+    top: -1px;
+  }
+}
+
+@keyframes waves2 {
+  0% {
+    left: -4px;
+    top: 1px;
+  }
+  25% {
+    left: -2;
+    top: 2px;
+  }
+  50% {
+    left: 0px;
+    top: 1px;
+  }
+  75% {
+    left: -2;
+    top: 0;
+  }
+  100% {
+    left: -4px;
+    top: 1px;
+  }
+}
