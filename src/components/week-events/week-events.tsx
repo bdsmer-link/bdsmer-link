@@ -106,7 +106,7 @@ export default component$<WeekEventsProps>((props) => {
                       target = target.offsetParent as HTMLElement;
                     }
                     window.scrollTo({ top: top - 110, behavior: "smooth" });
-                  });
+                  }, 500);
                 });
 
                 return (

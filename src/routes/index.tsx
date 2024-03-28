@@ -19,7 +19,7 @@ export default component$(() => {
   return (
     <>
       <RegionNavbar />
-      <div class="max-w-6xl mx-auto">
+      <div class="max-w-6xl w-full mx-auto">
         <Calendar events={events.value} />
       </div>
     </>
