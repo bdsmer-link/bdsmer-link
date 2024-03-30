@@ -52,7 +52,6 @@
   "dependencies": {
     "@modular-forms/qwik": "^0.22.0",
     "@neondatabase/serverless": "^0.7.2",
-    "@types/google.accounts": "^0.0.13",
     "@unpic/qwik": "^0.0.32",
     "@vercel/blob": "^0.19.0",
     "@vercel/edge-config": "^0.2.1",

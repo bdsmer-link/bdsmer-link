@@ -25,7 +25,6 @@ export default component$(() => {
       <body lang="en">
         <RouterOutlet />
         <ServiceWorkerRegister />
-        <script src="https://accounts.google.com/gsi/client" async></script>
       </body>
     </QwikCityProvider>
   );

@@ -17,21 +17,26 @@ import {
   UserThemeContext,
 } from "~/contexts/theme-context";
 import { Calendar, CalendarContext } from "~/contexts/calendar-context";
+import { AdultWarningContext } from "~/contexts/adult-warning-context";
 
 export default component$(() => {
+  const loc = useLocation();
   const theme = useSignal<Theme>(Theme.light);
   const userTheme = useSignal<Theme | null>(null);
   const calendar = useSignal<string>(Calendar.weekly);
+  const adultWarning = useSignal<boolean>(true);
 
   useContextProvider(ThemeContext, theme);
   useContextProvider(UserThemeContext, userTheme);
   useContextProvider(CalendarContext, calendar);
+  useContextProvider(AdultWarningContext, adultWarning);
 
   useOnWindow(
     "DOMContentLoaded",
     $(() => {
       const darkMedia = window.matchMedia("(prefers-color-scheme: dark)");
 
+      theme.value = darkMedia.matches ? Theme.dark : Theme.light;
       darkMedia.addEventListener("change", (event: MediaQueryListEvent) => {
         theme.value = event.matches ? Theme.dark : Theme.light;
       });
@@ -39,12 +44,17 @@ export default component$(() => {
       const localTheme = localStorage.getItem("theme");
       if (localTheme === Theme.dark) userTheme.value = Theme.dark;
       else if (localTheme === Theme.light) userTheme.value = Theme.light;
+
+      if (loc.url.searchParams.get("adult")) {
+        adultWarning.value = false;
+        loc.url.searchParams.delete("adult");
+        history.replaceState(null, "", loc.url.toString());
+      }
     }),
   );
 
   const tValue = userTheme.value || theme.value;
 
-  const loc = useLocation();
   if (loc.params.uid)
     return (
       <div
@@ -55,27 +65,30 @@ export default component$(() => {
     );
 
   return (
-    <>
-      <WarningSign />
-      <div
-        class={[
-          "flex flex-col min-h-screen bg-background",
-          { dark: tValue === Theme.dark },
-        ]}
-        style={{
-          "--color-primary": tValue === Theme.dark ? "#efefef" : "#72675a",
-          "--color-secondary": tValue === Theme.dark ? "#fb923c" : "#fb923c",
-          "--color-background": tValue === Theme.dark ? "#282320" : "#faf9f8",
-          "--color-border": tValue === Theme.dark ? "#47403c" : "#9ca3af",
-        }}
-      >
-        <Hero />
-        <Navbar />
-        <main class="flex flex-auto flex-col text-primary container mx-auto px-3">
+    <div
+      class={[
+        "flex flex-col min-h-screen bg-background",
+        { dark: tValue === Theme.dark },
+      ]}
+      style={{
+        "--color-primary": tValue === Theme.dark ? "#efefef" : "#72675a",
+        "--color-secondary": tValue === Theme.dark ? "#fb923c" : "#fb923c",
+        "--color-border": tValue === Theme.dark ? "#47403c" : "#9ca3af",
+        "--color-background": tValue === Theme.dark ? "#282320" : "#faf9f8",
+      }}
+    >
+      {adultWarning.value === true ? <WarningSign /> : null}
+      <Hero />
+      <Navbar />
+      <main class="relative">
+        <div class="flex flex-auto flex-col text-primary container mx-auto px-3">
           <Slot />
-        </main>
-        <Footer />
-      </div>
-    </>
+        </div>
+        {adultWarning.value === true ? (
+          <div class="absolute inset-0 z-40 bg-black bg-opacity-10 backdrop-blur-sm" />
+        ) : null}
+      </main>
+      <Footer />
+    </div>
   );
 });

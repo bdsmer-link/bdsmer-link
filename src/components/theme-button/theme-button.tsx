@@ -12,6 +12,8 @@ export default component$(() => {
     <div class="flex items-center justify-center py-2">
       <div class="flex items-center mx-auto rounded-full bg-background px-3">
         <button
+          type="button"
+          aria-label="Light theme"
           class="cursor-pointer text-sm text-primary mr-3"
           onClick$={() => {
             userTheme.value = Theme.light;
@@ -22,6 +24,7 @@ export default component$(() => {
         </button>
         <button
           type="button"
+          aria-label="Toggle theme"
           class="cursor-pointer p-1 w-16 flex-center rounded-full bg-border"
           onClick$={() => {
             if (
@@ -69,6 +72,8 @@ export default component$(() => {
           </div>
         </button>
         <button
+          type="button"
+          aria-label="Dark theme"
           class="cursor-pointer text-sm text-primary ml-3"
           onClick$={() => {
             userTheme.value = Theme.dark;
