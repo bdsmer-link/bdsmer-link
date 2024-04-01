@@ -85,7 +85,7 @@ export default component$(() => {
           <Slot />
         </div>
         {adultWarning.value === true ? (
-          <div class="absolute inset-0 z-40 bg-black bg-opacity-10 backdrop-blur-sm" />
+          <div class="absolute inset-0 z-40 bg-transparent bg-opacity-10 backdrop-blur-sm" />
         ) : null}
       </main>
       <Footer />

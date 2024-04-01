@@ -1,6 +1,11 @@
 import pick from "lodash/pick";
 import map from "lodash/map";
-import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
+import {
+  component$,
+  useContext,
+  useSignal,
+  useStyles$,
+} from "@builder.io/qwik";
 import { routeLoader$, useLocation } from "@builder.io/qwik-city";
 import type { User } from "~/units/postgres/users.d";
 import type { Event } from "~/units/postgres/events.d";
@@ -8,6 +13,8 @@ import { Theme, useTheme } from "~/contexts/theme-context";
 import UserLink from "~/components/user-link";
 import Calendar from "~/components/calendar";
 import ThemeButton from "~/components/theme-button";
+import WarningSign from "~/components/warning-sign";
+import { AdultWarningContext } from "~/contexts/adult-warning-context";
 import IconPreview from "./preview.svg?jsx";
 
 type UserLoaderPayload = Pick<
@@ -47,7 +54,7 @@ export const useUser = routeLoader$<UserLoaderPayload>(async (req) => {
     ]);
 
     const calendar = await dbCalendars.loadByUserId(user.id);
-    if (calendar) {
+    if (calendar && calendar.id) {
       const events = await dbEvents.findByUser(user.id);
       result.events = map(events, (event) => ({ ...event, host: "" }));
     }
@@ -64,6 +71,7 @@ export default component$(() => {
   const theme = useTheme();
   const loc = useLocation();
   const preview = useSignal(true);
+  const adultWarning = useContext(AdultWarningContext);
 
   const colors = user.value.colors;
 
@@ -90,7 +98,8 @@ export default component$(() => {
           theme === Theme.dark ? colors.darkBackground : colors.background,
       }}
     >
-      <main class="flex flex-auto flex-col max-w-lg w-full px-3">
+      {adultWarning.value === true ? <WarningSign /> : null}
+      <main class="relative flex flex-auto flex-col max-w-lg w-full px-3">
         {user.value.banner && (
           <div class="w-full max-w-[851px]">
             <img
@@ -129,6 +138,9 @@ export default component$(() => {
         {user.value.events && (
           <Calendar isMini={true} events={user.value.events} />
         )}
+        {adultWarning.value === true ? (
+          <div class="absolute inset-0 z-40 bg-transparent bg-opacity-10 backdrop-blur-sm" />
+        ) : null}
       </main>
       <footer class="w-full text-center py-4">
         <div class="flex flex-row text-xs mx-auto w-fit">
@@ -141,12 +153,12 @@ export default component$(() => {
       </footer>
       {loc.params.timestamp && preview.value === true && (
         <button
-          class="fixed inset-0 w-full h-full flex-center flex-col bg-black/60"
+          class="fixed z-30 inset-0 w-full h-full flex-center flex-col bg-black/60"
           onClick$={() => (preview.value = false)}
         >
           <div>
             <IconPreview class="w-20 h-20 m-auto fill-white" />
-            <span class="font-bold tracking-wide">PREVIEW</span>
+            <span class="font-bold tracking-wide text-white">PREVIEW</span>
           </div>
         </button>
       )}
