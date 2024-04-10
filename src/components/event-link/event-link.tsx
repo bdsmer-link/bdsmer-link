@@ -24,7 +24,7 @@ export default component$<EventLinkProps>(({ event }) => {
       href={event.form || `/events/${event.id}?adult=1`}
       target={`bdsmer-${event.id}`}
     >
-      <div class="block relative px-2 py-2 overflow-hidden bg-background dark:bg-border">
+      <div class="block relative px-2 py-2 overflow-hidden bg-box-background">
         <div class="text-sm pb-2 pl-8">{`${format(
           startAt,
           "HH:mm",

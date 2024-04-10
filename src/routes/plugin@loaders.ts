@@ -1,10 +1,10 @@
 import { routeLoader$ } from "@builder.io/qwik-city";
-import DBEvents from "~/units/postgres/events";
 import DBSkills from "~/units/postgres/skills";
 import { type Event } from "~/units/postgres/events.d";
 import { type Skill } from "~/units/postgres/skills";
 
 export const useEvent = routeLoader$(async (req) => {
+  const DBEvents = (await import("~/units/postgres/events")).default;
   const dbEvents = new DBEvents(req.env);
   const result = await dbEvents.get(req.params.id);
   return result as Event;

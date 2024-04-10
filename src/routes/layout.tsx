@@ -73,7 +73,8 @@ export default component$(() => {
       style={{
         "--color-primary": tValue === Theme.dark ? "#efefef" : "#72675a",
         "--color-secondary": tValue === Theme.dark ? "#fb923c" : "#fb923c",
-        "--color-border": tValue === Theme.dark ? "#47403c" : "#9ca3af",
+        "--color-border": tValue === Theme.dark ? "#47403c" : "#e2e0de",
+        "--color-box-background": tValue === Theme.dark ? "#47403c" : "#e2e0de",
         "--color-background": tValue === Theme.dark ? "#282320" : "#faf9f8",
       }}
     >

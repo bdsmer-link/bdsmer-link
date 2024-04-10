@@ -113,13 +113,13 @@ export default component$<WeekEventsProps>((props) => {
                   <td
                     key={day.getTime()}
                     class={[
-                      "h-12 border-2 border-background bg-background dark:bg-border",
+                      "h-12 border border-background",
                       { "cursor-pointer": hasEvents, "opacity-60": isBefore },
                     ]}
                   >
                     <button
                       type="button"
-                      class="w-full h-full relative rounded border border-border"
+                      class="w-full h-full relative rounded border border-border bg-box-background"
                       preventdefault:click
                       onClick$={onClick}
                     >

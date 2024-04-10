@@ -10,7 +10,7 @@ export default component$<UserLinkTextProps>(({ uid, item }) => {
   return (
     <a
       class={[
-        "flex-center text-sm border-4 py-2 px-2 rounded cursor-pointer select-none font-bold text-primary bg-secondary border-secondary",
+        "flex-center py-2 px-2 rounded cursor-pointer select-none font-bold text-primary border border-border bg-box-background",
         "transition-transform hover:scale-105",
       ]}
       href={item.url}

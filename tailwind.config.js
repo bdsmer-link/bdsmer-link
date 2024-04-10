@@ -11,6 +11,7 @@ module.exports = {
       current: "currentColor",
       primary: "var(--color-primary)",
       secondary: "var(--color-secondary)",
+      "box-background": "var(--color-box-background)",
       background: "var(--color-background)",
       border: "var(--color-border)",
       main: {

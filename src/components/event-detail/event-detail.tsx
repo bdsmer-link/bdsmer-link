@@ -21,8 +21,8 @@ export default component$<EventDetailProps>(({ event }) => {
   return (
     <>
       <div class="max-auto px-3 py-4 container">
-        <div class="block relative w-full p-1 text-main border rounded-md border-main">
-          <div class="bg-gray-100 p-2">
+        <div class="block relative w-full p-1 text-main border border-main rounded-md text-primary">
+          <div class="bg-box-background p-2">
             <div class="text-xl font-semibold py-2 px-2">{event.summary}</div>
             <div class="text-base py-1 px-2">{`場地：${
               event.provider || event.host

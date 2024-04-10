@@ -7,7 +7,7 @@ import {
   useStyles$,
 } from "@builder.io/qwik";
 import { routeLoader$, useLocation } from "@builder.io/qwik-city";
-import type { User } from "~/units/postgres/users.d";
+import { type User, Theme as UserTheme } from "~/units/postgres/users.d";
 import type { Event } from "~/units/postgres/events.d";
 import { Theme, useTheme } from "~/contexts/theme-context";
 import UserLink from "~/components/user-link";
@@ -74,6 +74,7 @@ export default component$(() => {
   const adultWarning = useContext(AdultWarningContext);
 
   const colors = user.value.colors;
+  const userTheme = user.value.theme;
 
   useStyles$(`
     .theme-avatar {
@@ -94,6 +95,12 @@ export default component$(() => {
           theme === Theme.dark ? colors.darkSecondary : colors.secondary,
         "--color-border":
           theme === Theme.dark ? colors.darkBorder : colors.border,
+        "--color-box-background":
+          userTheme !== UserTheme.default
+            ? "transparent"
+            : theme === Theme.dark
+              ? colors.darkBorder
+              : colors.border,
         "--color-background":
           theme === Theme.dark ? colors.darkBackground : colors.background,
       }}
