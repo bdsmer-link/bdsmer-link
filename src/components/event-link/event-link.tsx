@@ -17,11 +17,12 @@ export default component$<EventLinkProps>(({ event }) => {
 
   const provider = event.provider || event.host || "";
   const location = event.location || "";
+  const form = event.form || event.cForm || "";
 
   return (
     <a
       class="block p-1 my-4 border rounded-md border-border text-primary"
-      href={event.form || `/events/${event.id}?adult=1`}
+      href={form || `/events/${event.id}?adult=1`}
       target={`bdsmer-${event.id}`}
     >
       <div class="block relative px-2 py-2 overflow-hidden bg-box-background">

@@ -3,9 +3,14 @@ export type Event = {
   summary: string;
   startAt: Date;
   endAt: Date;
-  host: string;
+  show: boolean | null;
+  cShow: boolean;
+  userId: number | null;
   form: string | null;
-  description: string;
+  cForm: string | null;
+  description: string | null;
+  cDescription: string | null;
+  host: string;
   provider?: string;
   location?: string;
 };

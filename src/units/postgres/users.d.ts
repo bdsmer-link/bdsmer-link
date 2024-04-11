@@ -71,7 +71,7 @@ export type UserLink =
 
 export enum Theme {
   default = "default",
-  rainbow = "rainbow",
+  sunlight = "sunlight",
   cyberpunk = "cyberpunk",
   sexy = "sexy",
 }

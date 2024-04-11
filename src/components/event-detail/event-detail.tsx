@@ -14,9 +14,12 @@ export default component$<EventDetailProps>(({ event }) => {
 
   const imageUrls =
     /https?:\/\/(?:[-a-zA-Z0-9()@:%_+.~#?&/=]+)\.(jpeg|jpg|png)(?!")/gi;
-  const description = event.description.replace(imageUrls, (url) => {
-    return `<img src="${url}" class="max-w-full max-h-96" />`;
-  });
+  const description = (event.description || event.cDescription || "").replace(
+    imageUrls,
+    (url) => {
+      return `<img src="${url}" class="max-w-full max-h-96" />`;
+    },
+  );
 
   return (
     <>
