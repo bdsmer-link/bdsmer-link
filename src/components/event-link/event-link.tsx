@@ -6,10 +6,11 @@ import Sun from "./sun.svg?jsx";
 import Moon from "./moon.svg?jsx";
 
 interface EventLinkProps {
+  uid?: string;
   event: Event;
 }
 
-export default component$<EventLinkProps>(({ event }) => {
+export default component$<EventLinkProps>(({ uid, event }) => {
   const startAt = new Date(event.startAt);
   const endAt = new Date(event.endAt);
   const distance = formatDistanceStrict(startAt, endAt);
@@ -22,7 +23,7 @@ export default component$<EventLinkProps>(({ event }) => {
   return (
     <a
       class="block p-1 my-4 border rounded-md border-border text-primary"
-      href={form || `/events/${event.id}?adult=1`}
+      href={form || `${uid && `/${uid}`}/events/${event.id}?adult=1`}
       target={`bdsmer-${event.id}`}
     >
       <div class="block relative px-2 py-2 overflow-hidden bg-box-background">

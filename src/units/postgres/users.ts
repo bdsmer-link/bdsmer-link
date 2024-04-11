@@ -8,13 +8,13 @@ function formatUser(user: Partial<User>): User {
     links: user.links || [],
     colors: {
       primary: user.colors?.primary || "#72675a",
-      secondary: user.colors?.secondary || "#cbc7bd",
-      border: user.colors?.border || "#72675a",
-      background: user.colors?.background || "#ffffff",
-      darkPrimary: user.colors?.darkPrimary || "#ffffff",
-      darkSecondary: user.colors?.darkSecondary || "#72675a",
-      darkBorder: user.colors?.darkBorder || "#72675a",
-      darkBackground: user.colors?.darkBackground || "#000000",
+      secondary: user.colors?.secondary || "#725b5a",
+      border: user.colors?.border || "#c5beb6",
+      background: user.colors?.background || "#faf9f8",
+      darkPrimary: user.colors?.darkPrimary || "#9a8d7f",
+      darkSecondary: user.colors?.darkSecondary || "#9a807f",
+      darkBorder: user.colors?.darkBorder || "#564d44",
+      darkBackground: user.colors?.darkBackground || "#282320",
     },
   } as User;
 }

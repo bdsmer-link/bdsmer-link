@@ -9,10 +9,11 @@ import type { Event } from "~/units/postgres/events.d";
 
 interface CalendarProps {
   isMini?: boolean;
+  uid?: string;
   events: Event[];
 }
 
-export default component$<CalendarProps>(({ events, isMini }) => {
+export default component$<CalendarProps>(({ events, isMini, uid }) => {
   const weekEvents = useSignal<{ [week: string]: WeekEventsProps }>();
 
   useTask$(({ track }) => {
@@ -62,6 +63,7 @@ export default component$<CalendarProps>(({ events, isMini }) => {
               week={week}
               events={events}
               isMini={isMini}
+              uid={uid}
             />
           );
         })}

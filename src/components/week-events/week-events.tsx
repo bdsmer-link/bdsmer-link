@@ -16,6 +16,7 @@ export type DateEvents = {
 
 export interface WeekEventsProps {
   isMini?: boolean;
+  uid?: string;
   week: Date;
   events: {
     [day: string]: Event[];
@@ -184,7 +185,7 @@ export default component$<WeekEventsProps>((props) => {
               </div>
               <div class="flex-auto">
                 {props.events[offset].map((event) => (
-                  <EventLink key={event.id} event={event} />
+                  <EventLink key={event.id} uid={props.uid} event={event} />
                 ))}
               </div>
             </div>
