@@ -46,11 +46,23 @@ export default component$<WeekEventsProps>((props) => {
           <button
             type="button"
             class="flex flex-row gap-2 items-center justify-center"
-            onClick$={() => {
+            onClick$={(_, elem) => {
               calendar.value =
                 calendar.value === Calendar.monthly
                   ? Calendar.weekly
                   : Calendar.monthly;
+              if (calendar.value === Calendar.weekly) {
+                setTimeout(() => {
+                  let target: HTMLElement | null = elem;
+                  let top = 0;
+                  while (target) {
+                    top +=
+                      target.offsetTop - target.scrollLeft + target.clientTop;
+                    target = target.offsetParent as HTMLElement | null;
+                  }
+                  window.scrollTo({ top: top - 110, behavior: "smooth" });
+                }, 500);
+              }
             }}
           >
             <span>-</span>
@@ -104,7 +116,7 @@ export default component$<WeekEventsProps>((props) => {
                     while (target) {
                       top +=
                         target.offsetTop - target.scrollLeft + target.clientTop;
-                      target = target.offsetParent as HTMLElement;
+                      target = target.offsetParent as HTMLElement | null;
                     }
                     window.scrollTo({ top: top - 110, behavior: "smooth" });
                   }, 500);
