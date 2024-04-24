@@ -3,14 +3,14 @@ import { type DocumentHead } from "@builder.io/qwik-city";
 import Calendar from "~/components/calendar/calendar";
 import { documentHead } from "~/manifest";
 import { routeLoader$ } from "@builder.io/qwik-city";
-import { ProviderRegion } from "~/units/postgres/providers.d";
+import { UserRegion } from "~/units/postgres/users.d";
 import RegionNavbar from "~/components/region-navbar";
 import { type Event } from "~/units/postgres/events.d";
 
 export const useEvents = routeLoader$(async (req) => {
   const DBEvents = (await import("~/units/postgres/events")).default;
   const dbEvents = new DBEvents(req.env);
-  const result = await dbEvents.list(ProviderRegion.southern);
+  const result = await dbEvents.list(UserRegion.twSouthern);
   return result as Event[];
 });
 

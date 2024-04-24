@@ -5,7 +5,7 @@ export type Provider = {
 };
 
 export enum ProviderRegion {
-  northern = "northern",
-  midlands = "midlands",
-  southern = "southern",
+  northern = "tw-northern",
+  midlands = "tw-midlands",
+  southern = "tw-southern",
 }

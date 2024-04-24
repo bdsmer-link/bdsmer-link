@@ -82,6 +82,12 @@ export enum UserPlan {
   space = "space",
 }
 
+export enum UserRegion {
+  twNorthern = "tw-northern",
+  twMidlands = "tw-midlands",
+  twSouthern = "tw-southern",
+}
+
 export type User = {
   id: number;
   uid: string | null;
@@ -104,5 +110,7 @@ export type User = {
     darkBackground: string;
   };
   plan: UserPlan | null;
+  region: UserRegion;
+  location: string | null;
   lab: boolean;
 };
