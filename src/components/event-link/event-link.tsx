@@ -23,7 +23,7 @@ export default component$<EventLinkProps>(({ uid, event }) => {
   return (
     <a
       class="block p-1 my-4 border rounded-md border-border text-primary"
-      href={form || `${uid && `/${uid}`}/events/${event.id}?adult=1`}
+      href={form || `${uid ? `/${uid}` : ""}/events/${event.id}?adult=1`}
       target={`bdsmer-${event.id}`}
     >
       <div class="block relative px-2 py-2 overflow-hidden bg-box-background">
