@@ -39,15 +39,6 @@ export default component$(() => {
           <div>Call 1925</div>
         </div>
       </a>
-      <a
-        class="block p-1 my-4 border rounded-md border-orange-600"
-        href="tel:049-2551010"
-      >
-        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-star text-orange-600 bg-orange-100">
-          <div>精神醫療緊急處置指引</div>
-          <div>Call 049-2551010</div>
-        </div>
-      </a>
       <div class="mt-8 pl-2 border-l border-primary">私密影像外流</div>
       <a
         class="block p-1 my-4 border rounded-md border-purple-600"
