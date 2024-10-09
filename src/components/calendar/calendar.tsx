@@ -22,7 +22,7 @@ export default component$<CalendarProps>(({ events, isMini, uid }) => {
     const results: { [week: string]: WeekEventsProps } = {};
 
     let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
-    for (let i = 0; i < 7; i += 1) {
+    for (let i = 0; i < 13; i += 1) {
       const week = getWeek(currentWeek, { weekStartsOn: 1 });
       results[week] = {
         week: currentWeek,
