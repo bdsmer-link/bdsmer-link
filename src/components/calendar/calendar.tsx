@@ -1,7 +1,9 @@
 import getDay from "date-fns/getDay";
 import addDays from "date-fns/addDays";
 import getWeek from "date-fns/getWeek";
+import getYear from "date-fns/getYear";
 import startOfWeek from "date-fns/startOfWeek";
+import endOfWeek from "date-fns/endOfWeek";
 import { component$, useTask$, useSignal } from "@builder.io/qwik";
 import WeekEvents from "~/components/week-events";
 import type { WeekEventsProps } from "~/components/week-events/week-events";
@@ -23,8 +25,10 @@ export default component$<CalendarProps>(({ events, isMini, uid }) => {
 
     let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
     for (let i = 0; i < 13; i += 1) {
-      const week = getWeek(currentWeek, { weekStartsOn: 1 });
+      const year = (getYear(endOfWeek(currentWeek)) - 2000) * 100;
+      const week = getWeek(currentWeek, { weekStartsOn: 1 }) + year;
       results[week] = {
+        next: i,
         week: currentWeek,
         events: {
           "0": [],
@@ -41,7 +45,8 @@ export default component$<CalendarProps>(({ events, isMini, uid }) => {
 
     events.forEach((event) => {
       const date = new Date(event.startAt);
-      const week = getWeek(date, { weekStartsOn: 1 });
+      const year = (getYear(endOfWeek(date)) - 2000) * 100;
+      const week = getWeek(date, { weekStartsOn: 1 }) + year;
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!results[week]) return;
       const day = getDay(date);
@@ -56,10 +61,11 @@ export default component$<CalendarProps>(({ events, isMini, uid }) => {
       {weekEvents.value &&
         Object.keys(weekEvents.value).map((key) => {
           if (!weekEvents.value) return null;
-          const { week, events } = weekEvents.value[key];
+          const { next, week, events } = weekEvents.value[key];
           return (
             <WeekEvents
               key={week.getTime()}
+              next={next}
               week={week}
               events={events}
               isMini={isMini}

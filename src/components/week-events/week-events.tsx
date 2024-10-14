@@ -18,6 +18,7 @@ export interface WeekEventsProps {
   isMini?: boolean;
   uid?: string;
   week: Date;
+  next: number;
   events: {
     [day: string]: Event[];
   };
@@ -42,7 +43,11 @@ export default component$<WeekEventsProps>((props) => {
         ]}
       >
         <div class="flex flex-row justify-between border-primary border-l-2 pl-2 w-full max-w-sm mx-auto">
-          <div>{format(props.week, "MMMM")}</div>
+          {props.next > 0 ? (
+            <div>{`${format(props.week, "MMMM")} (in ${props.next}wks)`}</div>
+          ) : (
+            <div>{`${format(props.week, "MMMM")} (this week)`}</div>
+          )}
           <button
             type="button"
             class="flex flex-row gap-2 items-center justify-center"
