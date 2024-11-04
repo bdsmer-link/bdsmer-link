@@ -114,3 +114,13 @@ export type User = {
   location: string | null;
   lab: boolean;
 };
+
+export type Space = {
+  id: number;
+  uid: string | null;
+  website: string | null;
+  nickname: string;
+  avatar: string;
+  location: string | null;
+  lastUpdatedAt: string | null;
+};

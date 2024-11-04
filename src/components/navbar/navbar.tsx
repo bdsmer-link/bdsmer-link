@@ -42,20 +42,20 @@ export default component$(() => {
             class="pb-8 pt-10 w-full"
             preventdefault:click
             onClick$={() => {
-              focus.value = "skills";
-              nav("/skills/");
+              focus.value = "spaces";
+              nav("/spaces/");
             }}
           >
             <div
               class={[
                 "pb-1 px-1 mx-auto max-w-fit border-orange-400 select-none hover:text-main-200 after:bg-orange-400",
                 {
-                  "border-b": value === "skills",
-                  [styles.link]: loc.isNavigating && focus.value === "skills",
+                  "border-b": value === "spaces",
+                  [styles.link]: loc.isNavigating && focus.value === "spaces",
                 },
               ]}
             >
-              職人手作
+              友善場地
             </div>
           </button>
         </li>

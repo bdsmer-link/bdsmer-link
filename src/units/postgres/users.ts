@@ -1,5 +1,5 @@
 import Postgres from ".";
-import { type User, Theme } from "./users.d";
+import { type User, type Space, Theme } from "./users.d";
 
 function formatUser(user: Partial<User>): User {
   return {
@@ -34,5 +34,11 @@ export default class Users extends Postgres {
   async findUid(): Promise<User[]> {
     const rows = await this.sql`SELECT uid FROM users WHERE uid IS NOT NULL;`;
     return rows as User[];
+  }
+
+  async listSpaces(): Promise<Space[]> {
+    const rows = await this
+      .sql`SELECT users.id, users.uid, users.website, users.nickname, users.avatar, users.location, calendars."lastUpdatedAt" FROM users LEFT JOIN calendars ON calendars."userId" = users.id WHERE plan = 'space';`;
+    return rows as Space[];
   }
 }

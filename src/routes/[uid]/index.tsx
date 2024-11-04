@@ -1,6 +1,6 @@
 import pick from "lodash/pick";
 import map from "lodash/map";
-import { component$, useStyles$ } from "@builder.io/qwik";
+import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { type User } from "~/units/postgres/users.d";
 import type { Event } from "~/units/postgres/events.d";
@@ -50,6 +50,7 @@ export const useUser = routeLoader$<UserLoaderPayload>(async (req) => {
 
 export default component$(() => {
   const user = useUser();
+  const keyword = useSignal("");
 
   useStyles$(`
     .theme-avatar {
@@ -99,6 +100,7 @@ export default component$(() => {
       <hr class="w-64 h-px my-4 bg-gray-200 dark:bg-gray-800 border-0 mx-auto" />
       {user.value.events && (
         <Calendar
+          keyword={keyword}
           isMini={true}
           uid={user.value.uid}
           events={user.value.events}

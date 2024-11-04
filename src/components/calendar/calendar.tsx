@@ -25,16 +25,14 @@ export default component$<CalendarProps>(({ events, keyword, isMini, uid }) => {
     const newEvents = track(() => events);
     const newKeyword = track(() => keyword.value);
 
-    const keywords = newKeyword
-      .split(" ")
-      .map((keyword) => keyword.toLowerCase());
+    const keywords = newKeyword.split(" ").map((key) => key.toLowerCase());
     const fields = ["summary", "provider"];
     const filteredEvents =
       newKeyword.length > 1
         ? events.filter((event) => {
-            return keywords.every((keyword) =>
+            return keywords.every((key) =>
               fields.some((field) =>
-                (event as any)[field]?.toLowerCase().includes(keyword),
+                (event as any)[field]?.toLowerCase().includes(key),
               ),
             );
           })
