@@ -1,9 +1,9 @@
-import { component$ } from "@builder.io/qwik";
-import { type DocumentHead } from "@builder.io/qwik-city";
+import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import { useLocation, type DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import Calendar from "~/components/calendar";
 import { documentHead } from "~/manifest";
-import RegionNavbar from "~/components/region-navbar";
+import SearchBar from "~/components/search-bar";
 import { type Event } from "~/units/postgres/events.d";
 
 export const useEvents = routeLoader$(async (req) => {
@@ -14,13 +14,20 @@ export const useEvents = routeLoader$(async (req) => {
 });
 
 export default component$(() => {
+  const location = useLocation();
   const events = useEvents();
+  const search = useSignal("");
+
+  // eslint-disable-next-line qwik/no-use-visible-task
+  useVisibleTask$(() => {
+    search.value = location.url.searchParams.get("q") || "";
+  });
 
   return (
     <>
-      <RegionNavbar />
+      <SearchBar value={search} />
       <div class="max-w-6xl w-full mx-auto">
-        <Calendar events={events.value} />
+        <Calendar events={events.value} keyword={search} />
       </div>
     </>
   );

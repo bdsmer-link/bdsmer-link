@@ -4,7 +4,8 @@ import getWeek from "date-fns/getWeek";
 import getYear from "date-fns/getYear";
 import startOfWeek from "date-fns/startOfWeek";
 import endOfWeek from "date-fns/endOfWeek";
-import { component$, useTask$, useSignal } from "@builder.io/qwik";
+import { component$, useTask$, useSignal, type Signal } from "@builder.io/qwik";
+import { useLocation } from "@builder.io/qwik-city";
 import WeekEvents from "~/components/week-events";
 import type { WeekEventsProps } from "~/components/week-events/week-events";
 import type { Event } from "~/units/postgres/events.d";
@@ -13,13 +14,39 @@ interface CalendarProps {
   isMini?: boolean;
   uid?: string;
   events: Event[];
+  keyword: Signal<string>;
 }
 
-export default component$<CalendarProps>(({ events, isMini, uid }) => {
+export default component$<CalendarProps>(({ events, keyword, isMini, uid }) => {
+  const location = useLocation();
   const weekEvents = useSignal<{ [week: string]: WeekEventsProps }>();
 
   useTask$(({ track }) => {
-    track(() => events);
+    const newEvents = track(() => events);
+    const newKeyword = track(() => keyword.value);
+
+    const keywords = newKeyword
+      .split(" ")
+      .map((keyword) => keyword.toLowerCase());
+    const fields = ["summary", "provider"];
+    const filteredEvents =
+      newKeyword.length > 1
+        ? events.filter((event) => {
+            return keywords.every((keyword) =>
+              fields.some((field) =>
+                (event as any)[field]?.toLowerCase().includes(keyword),
+              ),
+            );
+          })
+        : newEvents;
+
+    if (newKeyword.length > 1) {
+      const pathname = location.url.pathname;
+      const searchParams = new URLSearchParams(location.url.search);
+      searchParams.set("q", newKeyword);
+      const newUrl = `${pathname}?${searchParams.toString()}`;
+      window.history.pushState(null, "", newUrl);
+    }
 
     const results: { [week: string]: WeekEventsProps } = {};
 
@@ -43,7 +70,7 @@ export default component$<CalendarProps>(({ events, isMini, uid }) => {
       currentWeek = addDays(currentWeek, 7);
     }
 
-    events.forEach((event) => {
+    filteredEvents.forEach((event) => {
       const date = new Date(event.startAt);
       const year = (getYear(endOfWeek(date)) - 2000) * 100;
       const week = getWeek(date, { weekStartsOn: 1 }) + year;
