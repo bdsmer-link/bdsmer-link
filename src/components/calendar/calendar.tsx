@@ -50,8 +50,9 @@ export default component$<CalendarProps>(({ events, keyword, isMini, uid }) => {
 
     let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
     for (let i = 0; i < 13; i += 1) {
-      const year = (getYear(endOfWeek(currentWeek)) - 2000) * 100;
-      const week = getWeek(currentWeek, { weekStartsOn: 1 }) + year;
+      const endOfDate = endOfWeek(currentWeek, { weekStartsOn: 1 });
+      const year = (getYear(endOfDate) - 2000) * 100;
+      const week = getWeek(endOfDate, { weekStartsOn: 1 }) + year;
       results[week] = {
         next: i,
         week: currentWeek,
@@ -70,8 +71,9 @@ export default component$<CalendarProps>(({ events, keyword, isMini, uid }) => {
 
     filteredEvents.forEach((event) => {
       const date = new Date(event.startAt);
-      const year = (getYear(endOfWeek(date)) - 2000) * 100;
-      const week = getWeek(date, { weekStartsOn: 1 }) + year;
+      const endOfDate = endOfWeek(date, { weekStartsOn: 1 });
+      const year = (getYear(endOfDate) - 2000) * 100;
+      const week = getWeek(endOfDate, { weekStartsOn: 1 }) + year;
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!results[week]) return;
       const day = getDay(date);
