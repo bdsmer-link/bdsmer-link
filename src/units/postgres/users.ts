@@ -37,8 +37,40 @@ export default class Users extends Postgres {
   }
 
   async listSpaces(): Promise<Space[]> {
-    const rows = await this
-      .sql`SELECT users.id, users.uid, users.website, users.nickname, users.avatar, users.location, calendars."lastUpdatedAt" FROM users LEFT JOIN calendars ON calendars."userId" = users.id WHERE plan = 'space';`;
+    const rows = await this.sql`
+      SELECT 
+        users.id, 
+        users.uid, 
+        users.website, 
+        users.nickname, 
+        users.avatar, 
+        users.location, 
+        calendars."lastUpdatedAt", 
+        CASE 
+          WHEN calendars."lastCheckedError" IS NULL THEN FALSE
+          ELSE TRUE
+        END AS "lastCheckedError",
+        COUNT(
+          CASE 
+            WHEN events.show IS NOT NULL AND events.show = true THEN events.id
+            WHEN events.show IS NULL AND events."cShow" = true THEN events.id
+          END
+        ) AS "eventCount"
+      FROM 
+        users
+      LEFT JOIN 
+        calendars 
+      ON 
+        calendars."userId" = users.id
+      LEFT JOIN 
+        events 
+      ON 
+        events."userId" = users.id
+      WHERE 
+        plan = 'space'
+      GROUP BY 
+        users.id, calendars."lastUpdatedAt", calendars."lastCheckedError";
+    `;
     return rows as Space[];
   }
 }

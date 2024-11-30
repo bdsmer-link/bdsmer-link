@@ -123,4 +123,6 @@ export type Space = {
   avatar: string;
   location: string | null;
   lastUpdatedAt: string | null;
+  lastCheckedError: boolean;
+  eventCount: number;
 };

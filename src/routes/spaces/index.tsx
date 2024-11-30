@@ -7,6 +7,7 @@ import DBUsers from "~/units/postgres/users";
 import { type Space } from "~/units/postgres/users.d";
 import { documentHead } from "~/manifest";
 import RightArrow from "./right-arrow.svg?jsx";
+import Danger from "./danger.svg?jsx";
 
 export const useSpaces = routeLoader$(async (req) => {
   const dbUsers = new DBUsers(req.env);
@@ -49,12 +50,19 @@ export default component$(() => {
                 {space.location}
               </div>
             </div>
-            {space.lastUpdatedAt && (
-              <div class="absolute top-1 right-2 text-sm text-main-600 dark:text-main-300">
-                {formatDistanceToNow(new Date(space.lastUpdatedAt))}
-              </div>
+            {space.lastCheckedError ? (
+              <Danger class="absolute top-2 right-3 w-4 h-4 fill-primary" />
+            ) : (
+              space.lastUpdatedAt && (
+                <div class="absolute top-1 right-2 text-sm text-main-600 dark:text-main-300">
+                  {formatDistanceToNow(new Date(space.lastUpdatedAt))}
+                </div>
+              )
             )}
-            <RightArrow class="absolute right-2 bottom-1 w-8 h-8 fill-primary" />
+            <div class="absolute bottom-2 right-12 text-base text-main-600 dark:text-main-300">
+              {space.eventCount} evs
+            </div>
+            <RightArrow class="absolute bottom-1 right-2 w-8 h-8 fill-primary" />
           </div>
         </a>
       ))}
