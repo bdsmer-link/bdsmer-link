@@ -81,7 +81,7 @@ export default component$(() => {
       {adultWarning.value === true ? <WarningSign /> : null}
       <Hero />
       <Navbar />
-      <main class="relative">
+      <main class="relative flex-1">
         <div class="flex flex-auto flex-col text-primary container mx-auto px-3">
           <Slot />
         </div>
