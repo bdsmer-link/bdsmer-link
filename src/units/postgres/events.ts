@@ -9,12 +9,10 @@ export default class Events extends Postgres {
   }
 
   async list(): Promise<Event[]> {
-    const rows = await this
-      .sql`SELECT ev.*, COALESCE(ur.nickname, pr.name) AS provider
+    const rows = await this.sql`SELECT ev.*, ur.nickname AS provider
       FROM events AS ev
-      LEFT JOIN providers AS pr ON pr.id = ev.host
-      LEFT JOIN users AS ur ON ur.id = ev."userId" AND ur.plan = 'space'
-      WHERE "startAt" > now() - interval '1 day' AND COALESCE(ur.nickname, pr.name) IS NOT NULL AND ("show" IS TRUE OR ("show" IS NULL AND "cShow" IS TRUE))
+      LEFT JOIN users AS ur ON ur.id = ev."userId"
+      WHERE "startAt" > now() - interval '1 day' AND ur.plan = 'space' AND ("show" IS TRUE OR ("show" IS NULL AND "cShow" IS TRUE))
       ORDER BY "startAt";`;
 
     return rows as Event[];
