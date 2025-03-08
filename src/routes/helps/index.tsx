@@ -57,6 +57,25 @@ export default component$(() => {
         </div>
       </a>
       <div class="mt-8 pl-2 border-l border-primary">其他資源</div>
+      <div class="mt-2 text-xs">
+        <p>
+          性侵包含<b>「情勒性交」</b>
+          ，依「刑法」第221條第1項規定，強制性交指行為人利用強暴、脅迫、恐嚇、
+          <b>催眠術</b>或其他違反其意願之方法下遭性侵得逞。
+        </p>
+        <p class="mt-1">
+          性侵包含<b>「乘機性交」</b>，依「性侵害犯罪防治法」第 225
+          條「不能或不知抗拒」，是指被害人因精神障礙或是狀況不佳，導致辨別能力降低，在無可抗拒的狀態下遭性侵得逞。
+        </p>
+      </div>
+      <a
+        class="block p-1 my-4 border rounded-md border-purple-600"
+        href="https://www.goh.org.tw/"
+      >
+        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-purple-600 bg-purple-100">
+          <div>勵馨基金會</div>
+        </div>
+      </a>
       <a
         class="block p-1 my-4 border rounded-md border-purple-600"
         href="https://www.ecpat.org.tw/"
@@ -71,14 +90,6 @@ export default component$(() => {
       >
         <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-purple-600 bg-purple-100">
           <div>婦女救援基金會</div>
-        </div>
-      </a>
-      <a
-        class="block p-1 my-4 border rounded-md border-purple-600"
-        href="https://www.goh.org.tw/"
-      >
-        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-purple-600 bg-purple-100">
-          <div>勵馨基金會</div>
         </div>
       </a>
     </div>
