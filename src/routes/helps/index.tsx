@@ -44,19 +44,21 @@ export default component$(() => {
         class="block p-1 my-4 border rounded-md border-purple-600"
         href="https://i.win.org.tw"
       >
-        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-purple-600 bg-purple-100">
+        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-protect text-purple-600 bg-purple-100">
           <div>iWIN 網路內容防護機構</div>
+          <div>https://i.win.org.tw/</div>
         </div>
       </a>
       <a
         class="block p-1 my-4 border rounded-md border-purple-600"
         href="https://tw-ncii.win.org.tw/"
       >
-        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-purple-600 bg-purple-100">
+        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-protect text-purple-600 bg-purple-100">
           <div>衛生福利部 - 性影像處理中心</div>
+          <div>https://tw-ncii.win.org.tw/</div>
         </div>
       </a>
-      <div class="mt-8 pl-2 border-l border-primary">其他資源</div>
+      <div class="mt-8 pl-2 border-l border-primary">法律諮詢</div>
       <div class="mt-2 text-xs">
         <p>
           性侵包含<b>「情勒性交」</b>
@@ -69,27 +71,46 @@ export default component$(() => {
         </p>
       </div>
       <a
-        class="block p-1 my-4 border rounded-md border-purple-600"
+        class="block p-1 my-4 border rounded-md border-gray-700"
+        href="https://lin.ee/EFmo56g"
+      >
+        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-lawyer text-gray-700 bg-gray-200">
+          <div>旭陽法律事務所</div>
+          <div>https://lin.ee/EFmo56g</div>
+        </div>
+      </a>
+      <div class="mt-2 text-xs flex">
+        <div>歡迎律師、諮商師、社工，刊登諮詢資訊</div>
+        <a class="ml-2 underline" href="https://x.com/yutin_18">
+          https://x.com/yutin_18
+        </a>
+      </div>
+      <div class="mt-8 pl-2 border-l border-primary">其他資源</div>
+      <a
+        class="block p-1 my-4 border rounded-md border-green-600"
         href="https://www.goh.org.tw/"
       >
-        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-purple-600 bg-purple-100">
+        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-green-600 bg-green-100">
           <div>勵馨基金會</div>
+          <div>https://www.goh.org.tw/</div>
         </div>
       </a>
       <a
-        class="block p-1 my-4 border rounded-md border-purple-600"
+        class="block p-1 my-4 border rounded-md border-green-600"
         href="https://www.ecpat.org.tw/"
       >
-        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-purple-600 bg-purple-100">
+        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-green-600 bg-green-100">
           <div>展翅協會</div>
+          <div>https://www.ecpat.org.tw/</div>
         </div>
       </a>
       <a
-        class="block p-1 my-4 border rounded-md border-purple-600"
+        class="block p-1 my-4 border rounded-md border-green-600"
         href="https://www.twrf.org.tw/"
       >
-        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-purple-600 bg-purple-100">
+        <div class="block relative px-2 py-2 bg-no-repeat bg-right-bottom bg-contain bg-help-support text-green-600 bg-green-100">
           <div>婦女救援基金會</div>
+          <div>https://www.twrf.org.tw/</div>
         </div>
       </a>
     </div>
