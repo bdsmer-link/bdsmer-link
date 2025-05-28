@@ -3,7 +3,7 @@ import map from "lodash/map";
 import { $, component$, useContext } from "@builder.io/qwik";
 import { addDays, startOfDay } from "date-fns";
 import format from "~/units/date-tz";
-import EventLink from "../event-link/event-link";
+import EventLink from "~/components/event-link/event-link";
 import { Calendar, CalendarContext } from "~/contexts/calendar-context";
 import type { Event } from "~/units/postgres/events.d";
 import IconCalendar from "./calendar.svg?jsx";

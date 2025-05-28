@@ -32,7 +32,7 @@ export default component$<EventLinkProps>(({ uid, event }) => {
           "HH:mm",
         )} - ${distance}`}</div>
         <div class="text-base font-semibold">{event.summary}</div>
-        <div class="absolute top-1 right-2 text-base">
+        <div class="sm:absolute top-1 right-2 text-xs mt-1 sm:mt-0 sm:text-base text-right">
           {provider && location
             ? `${provider} ( ${location} )`
             : provider || location}
