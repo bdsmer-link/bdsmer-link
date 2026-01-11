@@ -10,9 +10,9 @@ export default class Postgres {
   sql: NeonQueryFunction<false, false>;
 
   constructor(env: RequestEvent["env"]) {
-    const connectionString = env.get("POSTGRES_URL_NON_POOLING");
+    const connectionString = env.get("DATABASE_URL");
     if (!connectionString) {
-      throw new Error("POSTGRES_URL_NON_POOLING not found");
+      throw new Error("DATABASE_URL not found");
     }
 
     this.sql = neon(connectionString);
