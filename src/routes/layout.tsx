@@ -81,14 +81,14 @@ export default component$(() => {
       {adultWarning.value === true ? <WarningSign /> : null}
       <Hero />
       <Navbar />
-      <main class="relative flex-1">
+      <main class="flex-1">
         <div class="flex flex-auto flex-col text-primary container mx-auto px-3">
           <Slot />
         </div>
-        {adultWarning.value === true ? (
-          <div class="absolute inset-0 z-40 bg-transparent bg-opacity-10 backdrop-blur-sm" />
-        ) : null}
       </main>
+      {adultWarning.value === true ? (
+        <div class="fixed inset-0 z-40 bg-black/10 backdrop-blur-sm" />
+      ) : null}
       <Footer />
     </div>
   );

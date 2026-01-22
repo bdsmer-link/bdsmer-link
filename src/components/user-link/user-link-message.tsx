@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import type { UserLinkMessage } from "~/units/postgres/users.d";
+import type { UserLinkMessage } from "~/lib/database";
 import LineIcon from "./message-icons/line.svg?jsx";
 import DiscordIcon from "./message-icons/discord.svg?jsx";
 import SignalIcon from "./message-icons/signal.svg?jsx";

@@ -1,6 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { UserLinkType } from "~/units/postgres/users.d";
-import type { UserLink } from "~/units/postgres/users.d";
+import { UserLinkType, type UserLink } from "~/lib/database";
 import UserLinkText, { type UserLinkTextProps } from "./user-link-text";
 import UserLinkPicture, {
   type UserLinkPictureProps,

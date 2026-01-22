@@ -8,7 +8,7 @@ import { component$, useTask$, useSignal, type Signal } from "@builder.io/qwik";
 import { useLocation } from "@builder.io/qwik-city";
 import WeekEvents from "~/components/week-events";
 import type { WeekEventsProps } from "~/components/week-events/week-events";
-import type { Event } from "~/units/postgres/events.d";
+import type { Event } from "~/lib/database";
 
 interface CalendarProps {
   isMini?: boolean;

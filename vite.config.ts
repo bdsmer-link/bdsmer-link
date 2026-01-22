@@ -10,6 +10,13 @@ export default defineConfig(() => {
         '~/': new URL('./src/', import.meta.url).pathname,
       },
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+        },
+      },
+    },
     dev: {
       headers: {
         'Cache-Control': 'public, max-age=0',

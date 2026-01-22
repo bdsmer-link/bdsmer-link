@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import type { UserLinkSocial } from "~/units/postgres/users.d";
+import type { UserLinkSocial } from "~/lib/database";
 import FacebookIcon from "./social-icons/facebook.svg?jsx";
 import InstagramIcon from "./social-icons/instagram.svg?jsx";
 import TwitterXIcon from "./social-icons/twitter-x.svg?jsx";

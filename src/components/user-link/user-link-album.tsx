@@ -1,6 +1,6 @@
 import map from "lodash/map";
 import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
-import type { UserLinkAlbum } from "~/units/postgres/users.d";
+import type { UserLinkAlbum } from "~/lib/database";
 import ImagePlaceholder from "./1350x1080.svg?jsx";
 import IconChevronLeft from "./chevron-left.svg?jsx";
 import IconChevronRight from "./chevron-right.svg?jsx";
