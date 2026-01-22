@@ -1,44 +1,47 @@
-import pick from "lodash/pick";
 import map from "lodash/map";
 import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
-import { type User } from "~/units/postgres/users.d";
-import type { Event } from "~/units/postgres/events.d";
-import UserLink from "~/components/user-link";
+import {
+  getDatabase,
+  Communities,
+  Events,
+  Calendars,
+  shortIdToUuid,
+  type Community,
+  type Event,
+} from "~/lib/database";
 import Calendar from "~/components/calendar";
 
-type UserLoaderPayload = Pick<
-  User,
-  "uid" | "banner" | "nickname" | "introduction" | "avatar" | "links"
-> & {
-  uid: string;
+type CommunityLoaderPayload = Community & {
   events?: Event[];
 };
 
-export const useUser = routeLoader$<UserLoaderPayload>(async (req) => {
-  const DBUsers = (await import("~/units/postgres/users")).default;
-  const DBEvents = (await import("~/units/postgres/events")).default;
-  const DBCalendars = (await import("~/units/postgres/calendars")).default;
-  const userUid = req.params.uid;
-  const dbUsers = new DBUsers(req.env);
-  const dbEvents = new DBEvents(req.env);
-  const dbCalendars = new DBCalendars(req.env);
-  try {
-    const user = await dbUsers.loadUid(userUid);
-    if (!user) throw new Response("Not Found", { status: 404 });
-    const result = pick(user, [
-      "uid",
-      "banner",
-      "nickname",
-      "introduction",
-      "avatar",
-      "links",
-    ]) as UserLoaderPayload;
+export const useUser = routeLoader$<CommunityLoaderPayload>(async (req) => {
+  const db = getDatabase(req.env);
+  const communities = new Communities(db);
+  const events = new Events(db);
+  const calendars = new Calendars(db);
+  const communityUid = req.params.uid;
 
-    const calendar = await dbCalendars.loadByUserId(user.id);
+  try {
+    // Try shortId first, then fallback to uid
+    const uuid = shortIdToUuid(communityUid);
+
+    let community = uuid ? await communities.load(uuid) : null;
+
+    // If not found by shortId, try by uid
+    if (!community) {
+      community = await communities.loadByUid(communityUid);
+    }
+
+    if (!community) throw new Response("Not Found", { status: 404 });
+
+    const result: CommunityLoaderPayload = { ...community };
+
+    const calendar = await calendars.loadByCommunityId(community.id);
     if (calendar && calendar.id) {
-      const events = await dbEvents.findByUser(user.id);
-      result.events = map(events, (event) => ({ ...event, host: "" }));
+      const eventList = await events.findByCommunity(community.id);
+      result.events = map(eventList, (event) => ({ ...event }));
     }
 
     return result;
@@ -63,17 +66,6 @@ export default component$(() => {
 
   return (
     <>
-      {user.value.banner && (
-        <div class="w-full max-w-[851px]">
-          <img
-            class="w-full"
-            src={user.value.banner}
-            alt="Banner"
-            width={851}
-            height={315}
-          />
-        </div>
-      )}
       <div class="flex flex-col items-center pt-6">
         {user.value.avatar && (
           <img
@@ -84,25 +76,17 @@ export default component$(() => {
             alt="Bordered avatar"
           />
         )}
-        <div class="text-center pt-3 font-bold text-xl">
-          {user.value.nickname}
-        </div>
+        <div class="text-center pt-3 font-bold text-xl">{user.value.name}</div>
         <div class="text-center py-2 text-secondary">
           {user.value.introduction}
         </div>
       </div>
       <hr class="w-64 h-px my-4 bg-gray-200 dark:bg-gray-800 border-0 mx-auto" />
-      {user.value.links.map((item, index) => (
-        <div class="w-full mt-2" key={`${index}_${item.type}`}>
-          <UserLink uid={user.value.uid} type={item.type} item={item} />
-        </div>
-      ))}
-      <hr class="w-64 h-px my-4 bg-gray-200 dark:bg-gray-800 border-0 mx-auto" />
       {user.value.events && (
         <Calendar
           keyword={keyword}
           isMini={true}
-          uid={user.value.uid}
+          uid={user.value.uid || undefined}
           events={user.value.events}
         />
       )}

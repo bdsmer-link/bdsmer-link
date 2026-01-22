@@ -1,19 +1,18 @@
 import map from "lodash/map";
 import { type RequestHandler } from "@builder.io/qwik-city";
+import { getDatabase, Communities, Events } from "~/lib/database";
 
 export const onGet: RequestHandler = async ({ env, json, params, error }) => {
-  const DBUsers = (await import("~/units/postgres/users")).default;
-  const DBEvents = (await import("~/units/postgres/events")).default;
-  const dbUsers = new DBUsers(env);
+  const db = getDatabase(env);
+  const communities = new Communities(db);
+  const events = new Events(db);
 
-  const user = await dbUsers.loadUid(params.uid);
+  const community = await communities.loadByUid(params.uid);
+  if (!community) throw error(404, "Community not found");
 
-  if (!user) throw error(404, "User not found");
-
-  const dbEvents = new DBEvents(env);
-  const events = await dbEvents.findByUser(user.id);
-  const result = map(events, (event) => ({
-    provider: user.nickname,
+  const eventList = await events.findByCommunityUid(params.uid);
+  const result = map(eventList, (event) => ({
+    provider: community.name,
     summary: event.summary,
     startAt: event.startAt,
     endAt: event.endAt,

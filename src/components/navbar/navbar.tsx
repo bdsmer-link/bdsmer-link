@@ -87,7 +87,7 @@ export default component$(() => {
             preventdefault:click
             onClick$={() => {
               focus.value = "members";
-              nav("https://console.bdsmer.link");
+              nav("https://app.bdsmer.link");
             }}
           >
             <div

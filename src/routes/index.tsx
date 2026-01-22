@@ -4,12 +4,12 @@ import { routeLoader$ } from "@builder.io/qwik-city";
 import Calendar from "~/components/calendar";
 import { documentHead } from "~/manifest";
 import SearchBar from "~/components/search-bar";
-import { type Event } from "~/units/postgres/events.d";
+import { getDatabase, Events, type Event } from "~/lib/database";
 
 export const useEvents = routeLoader$(async (req) => {
-  const DBEvents = (await import("~/units/postgres/events")).default;
-  const dbEvents = new DBEvents(req.env);
-  const result = await dbEvents.list();
+  const db = getDatabase(req.env);
+  const events = new Events(db);
+  const result = await events.list();
   return result as Event[];
 });
 

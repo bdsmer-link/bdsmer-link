@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import type { UserLinkHr } from "~/units/postgres/users.d";
+import type { UserLinkHr } from "~/lib/database";
 
 export type UserLinkHrProps = {
   item: UserLinkHr;

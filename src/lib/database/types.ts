@@ -1,3 +1,4 @@
+// User Link Types
 export enum UserLinkType {
   text = "text",
   picture = "picture",
@@ -69,6 +70,7 @@ export type UserLink =
   | UserLinkSocial
   | UserLinkMessage;
 
+// Theme
 export enum Theme {
   default = "default",
   sunlight = "sunlight",
@@ -76,53 +78,14 @@ export enum Theme {
   sexy = "sexy",
 }
 
-export enum UserPlan {
-  pro = "pro",
-  proPlus = "pro-plus",
-  space = "space",
-}
-
-export enum UserRegion {
-  twNorthern = "tw-northern",
-  twMidlands = "tw-midlands",
-  twSouthern = "tw-southern",
-}
-
-export type User = {
-  id: number;
-  uid: string | null;
-  nickname: string;
-  introduction: string | null;
-  email: string;
-  avatar: string;
-  banner: string | null;
-  background: string | null;
-  links: UserLink[];
-  theme: Theme;
-  colors: {
-    primary: string;
-    secondary: string;
-    border: string;
-    background: string;
-    darkPrimary: string;
-    darkSecondary: string;
-    darkBorder: string;
-    darkBackground: string;
-  };
-  plan: UserPlan | null;
-  region: UserRegion;
-  location: string | null;
-  lab: boolean;
-};
-
-export type Space = {
-  id: number;
-  uid: string | null;
-  website: string | null;
-  nickname: string;
-  avatar: string;
-  location: string | null;
-  lastUpdatedAt: string | null;
-  lastCheckedError: boolean;
-  eventCount: number;
+// Colors
+export type CommunityColors = {
+  primary: string;
+  secondary: string;
+  border: string;
+  background: string;
+  darkPrimary: string;
+  darkSecondary: string;
+  darkBorder: string;
+  darkBackground: string;
 };

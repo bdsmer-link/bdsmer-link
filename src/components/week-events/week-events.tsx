@@ -5,7 +5,7 @@ import { addDays, startOfDay } from "date-fns";
 import format from "~/units/date-tz";
 import EventLink from "~/components/event-link/event-link";
 import { Calendar, CalendarContext } from "~/contexts/calendar-context";
-import type { Event } from "~/units/postgres/events.d";
+import type { Event } from "~/lib/database";
 import IconCalendar from "./calendar.svg?jsx";
 import IconCalendarDays from "./calendar-days.svg?jsx";
 

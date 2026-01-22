@@ -1,72 +1,81 @@
 import map from "lodash/map";
 import sortBy from "lodash/sortBy";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
 import { component$ } from "@builder.io/qwik";
-import DBUsers from "~/units/postgres/users";
-import { type Space } from "~/units/postgres/users.d";
+import { getDatabase, Communities } from "~/lib/database";
 import { documentHead } from "~/manifest";
-import RightArrow from "./right-arrow.svg?jsx";
-import Danger from "./danger.svg?jsx";
+import CalendarIcon from "~/components/week-events/calendar-days.svg?jsx";
 
 export const useSpaces = routeLoader$(async (req) => {
-  const dbUsers = new DBUsers(req.env);
-  const spaces = await dbUsers.listSpaces();
-  return sortBy(spaces, "nickname");
+  const db = getDatabase(req.env);
+  const communities = new Communities(db);
+  const spaces = await communities.listSpaces();
+  return sortBy(spaces, "name");
 });
-
-function formatWebsite(space: Space) {
-  if (space.website) {
-    return space.website;
-  }
-  if (space.uid) {
-    return `https://bdsmer.link/${space.uid}`;
-  }
-  return "";
-}
 
 export default component$(() => {
   const spaces = useSpaces();
 
   return (
-    <>
-      {map(spaces.value, (space) => (
-        <a
-          class="block p-1 my-4 border rounded-md border-primary"
-          href={formatWebsite(space)}
-          target="bdskerlink-space"
-        >
-          <div class="flex relative px-2 py-2 bg-border">
-            <img
-              class="h-14 w-14 rounded-full"
-              src={space.avatar}
-              alt="avatar"
-              width={256}
-              height={256}
-            />
-            <div class="flex-1 items-center pl-2">
-              <div class="text-base pb-2 font-semibold">{space.nickname}</div>
-              <div class="text-sm text-main-600 dark:text-main-300">
-                {space.location}
-              </div>
-            </div>
-            {space.lastCheckedError ? (
-              <Danger class="absolute top-2 right-3 w-4 h-4 fill-primary" />
-            ) : (
-              space.lastUpdatedAt && (
-                <div class="absolute top-1 right-2 text-sm text-main-600 dark:text-main-300">
-                  {formatDistanceToNow(new Date(space.lastUpdatedAt))}
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4">
+      {map(spaces.value, (space) => {
+        const website = space.website;
+        const profileUrl = `/${space.uid || space.id}`;
+
+        return (
+          <div class="flex flex-col border rounded-md border-primary overflow-hidden">
+            {website ? (
+              <a
+                class="flex-1 p-1 hover:bg-border/50 transition-colors"
+                href={website}
+                target="bdskerlink-space"
+              >
+                <div class="flex flex-col items-center p-3 bg-border rounded h-full">
+                  <img
+                    class="h-16 w-16 rounded-full mb-2"
+                    src={space.avatar || ""}
+                    alt="avatar"
+                    width={256}
+                    height={256}
+                  />
+                  <div class="text-sm font-semibold text-center line-clamp-1">
+                    {space.name}
+                  </div>
+                  <div class="text-xs text-main-600 dark:text-main-300 text-center line-clamp-1">
+                    {space.location}
+                  </div>
                 </div>
-              )
+              </a>
+            ) : (
+              <div class="flex-1 p-1">
+                <div class="flex flex-col items-center p-3 bg-border rounded h-full">
+                  <img
+                    class="h-16 w-16 rounded-full mb-2"
+                    src={space.avatar || ""}
+                    alt="avatar"
+                    width={256}
+                    height={256}
+                  />
+                  <div class="text-sm font-semibold text-center line-clamp-1">
+                    {space.name}
+                  </div>
+                  <div class="text-xs text-main-600 dark:text-main-300 text-center line-clamp-1">
+                    {space.location}
+                  </div>
+                </div>
+              </div>
             )}
-            <div class="absolute bottom-2 right-12 text-base text-main-600 dark:text-main-300">
-              {space.eventCount} evs
-            </div>
-            <RightArrow class="absolute bottom-1 right-2 w-8 h-8 fill-primary" />
+            <a
+              class="flex items-center justify-center gap-1 py-3 text-sm bg-border hover:bg-secondary hover:text-white transition-colors"
+              href={profileUrl}
+            >
+              <CalendarIcon class="w-4 h-4 stroke-current" />
+              {space.eventCount}
+            </a>
           </div>
-        </a>
-      ))}
-    </>
+        );
+      })}
+    </div>
   );
 });
 

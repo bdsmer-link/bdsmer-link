@@ -6,6 +6,22 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #72675a;
+  --color-secondary: #725b5a;
+  --color-border: #c5beb6;
+  --color-background: #faf9f8;
+  --color-box-background: #c5beb6;
+}
+
+.dark {
+  --color-primary: #9a8d7f;
+  --color-secondary: #9a807f;
+  --color-border: #564d44;
+  --color-background: #282320;
+  --color-box-background: #564d44;
+}
+
 @layer components {
   .text-last-left {
     text-align-last: left;
