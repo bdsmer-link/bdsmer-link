@@ -19,7 +19,7 @@ export default component$<EventLinkProps>(({ uid, event }) => {
     format(startAt, "yyyy-MM-dd") !== format(endAt, "yyyy-MM-dd") &&
     format(endAt, "HH:mm") !== "00:00";
 
-  const provider = event.provider || event.host || "";
+  const provider = event.provider || "";
   const form = event.form || event.cForm || "";
 
   return (

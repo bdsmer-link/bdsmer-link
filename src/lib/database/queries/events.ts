@@ -1,4 +1,4 @@
-import { eq, sql, and, or, gt, isNull } from "drizzle-orm";
+import { eq, sql, and, or, gt, isNull, isNotNull } from "drizzle-orm";
 import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
 import type { Schema } from "../index";
 import { community } from "../community-schema";
@@ -21,7 +21,6 @@ export type Event = {
   createdAt: Date;
   // Joined fields
   provider?: string | null;
-  host?: string | null; // Alias for provider (backwards compatibility)
   location?: string | null;
 };
 
@@ -49,7 +48,6 @@ function formatEvent(row: EventRow): Event {
     ...row,
     startAt: row.startAt || new Date(),
     endAt: row.endAt || new Date(),
-    host: row.provider,
   };
 }
 
@@ -109,6 +107,7 @@ export class Events {
       .leftJoin(community, eq(community.id, event.communityId))
       .where(
         and(
+          isNotNull(event.communityId),
           gt(event.startAt, sql`now() - interval '1 day'`),
           or(
             eq(event.show, true),
