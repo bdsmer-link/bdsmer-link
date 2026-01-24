@@ -38,7 +38,9 @@ export default component$<EventLinkProps>(({ uid, event }) => {
             </svg>
           )}
         </div>
-        <div class="text-base font-semibold">{event.summary}</div>
+        <div class="text-base font-semibold">
+          {event.summary || event.cSummary}
+        </div>
         <div class="sm:absolute top-1 right-2 text-xs mt-1 sm:mt-0 sm:text-base text-right">
           {provider}
         </div>
