@@ -7,8 +7,16 @@ import endOfWeek from "date-fns/endOfWeek";
 import { component$, useTask$, useSignal, type Signal } from "@builder.io/qwik";
 import { useLocation } from "@builder.io/qwik-city";
 import WeekEvents from "~/components/week-events";
+import MiniCalendar from "~/components/mini-calendar";
 import type { WeekEventsProps } from "~/components/week-events/week-events";
 import type { Event } from "~/lib/database";
+
+interface WeekData {
+  weekId: number;
+  week: Date;
+  next: number;
+  events: { [day: string]: Event[] };
+}
 
 interface CalendarProps {
   isMini?: boolean;
@@ -20,6 +28,7 @@ interface CalendarProps {
 export default component$<CalendarProps>(({ events, keyword, isMini, uid }) => {
   const location = useLocation();
   const weekEvents = useSignal<{ [week: string]: WeekEventsProps }>();
+  const weeksData = useSignal<WeekData[]>([]);
 
   useTask$(({ track }) => {
     const newEvents = track(() => events);
@@ -47,13 +56,15 @@ export default component$<CalendarProps>(({ events, keyword, isMini, uid }) => {
     }
 
     const results: { [week: string]: WeekEventsProps } = {};
+    const weeksArray: WeekData[] = [];
 
     let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
     for (let i = 0; i < 13; i += 1) {
       const endOfDate = endOfWeek(currentWeek, { weekStartsOn: 1 });
       const year = (getYear(endOfDate) - 2000) * 100;
-      const week = getWeek(endOfDate, { weekStartsOn: 1 }) + year;
-      results[week] = {
+      const weekId = getWeek(endOfDate, { weekStartsOn: 1 }) + year;
+      const weekData = {
+        weekId,
         next: i,
         week: currentWeek,
         events: {
@@ -64,8 +75,10 @@ export default component$<CalendarProps>(({ events, keyword, isMini, uid }) => {
           "4": [],
           "5": [],
           "6": [],
-        },
+        } as { [day: string]: Event[] },
       };
+      results[weekId] = weekData;
+      weeksArray.push(weekData);
       currentWeek = addDays(currentWeek, 7);
     }
 
@@ -73,33 +86,38 @@ export default component$<CalendarProps>(({ events, keyword, isMini, uid }) => {
       const date = new Date(event.startAt);
       const endOfDate = endOfWeek(date, { weekStartsOn: 1 });
       const year = (getYear(endOfDate) - 2000) * 100;
-      const week = getWeek(endOfDate, { weekStartsOn: 1 }) + year;
+      const weekId = getWeek(endOfDate, { weekStartsOn: 1 }) + year;
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (!results[week]) return;
+      if (!results[weekId]) return;
       const day = getDay(date);
-      results[week].events[day === 0 ? 6 : day - 1].push(event);
+      results[weekId].events[day === 0 ? 6 : day - 1].push(event);
     });
 
     weekEvents.value = results;
+    weeksData.value = weeksArray;
   });
 
   return (
-    <div class="py-8 relative">
-      {weekEvents.value &&
-        Object.keys(weekEvents.value).map((key) => {
-          if (!weekEvents.value) return null;
-          const { next, week, events } = weekEvents.value[key];
-          return (
-            <WeekEvents
-              key={week.getTime()}
-              next={next}
-              week={week}
-              events={events}
-              isMini={isMini}
-              uid={uid}
-            />
-          );
-        })}
+    <div class={["relative", isMini ? "py-8" : "lg:flex lg:gap-6"]}>
+      {!isMini && <MiniCalendar weeks={weeksData.value} />}
+      <div class={["flex-1", { "py-8": !isMini }]}>
+        {weekEvents.value &&
+          Object.keys(weekEvents.value).map((key) => {
+            if (!weekEvents.value) return null;
+            const { weekId, next, week, events } = weekEvents.value[key];
+            return (
+              <WeekEvents
+                key={week.getTime()}
+                weekId={weekId}
+                next={next}
+                week={week}
+                events={events}
+                isMini={isMini}
+                uid={uid}
+              />
+            );
+          })}
+      </div>
     </div>
   );
 });

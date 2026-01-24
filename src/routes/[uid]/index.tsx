@@ -1,5 +1,10 @@
 import map from "lodash/map";
-import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
+import {
+  component$,
+  useContextProvider,
+  useSignal,
+  useStyles$,
+} from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import {
   getDatabase,
@@ -11,6 +16,7 @@ import {
   type Event,
 } from "~/lib/database";
 import Calendar from "~/components/calendar";
+import { VisibleWeekContext } from "~/contexts/visible-week-context";
 
 type CommunityLoaderPayload = Community & {
   events?: Event[];
@@ -54,6 +60,9 @@ export const useUser = routeLoader$<CommunityLoaderPayload>(async (req) => {
 export default component$(() => {
   const user = useUser();
   const keyword = useSignal("");
+  const visibleWeek = useSignal(0);
+
+  useContextProvider(VisibleWeekContext, visibleWeek);
 
   useStyles$(`
     .theme-avatar {
