@@ -6,6 +6,9 @@ import {
   boolean,
   index,
   uuid,
+  integer,
+  date,
+  primaryKey,
 } from "drizzle-orm/pg-core";
 import { generateUuidV7, uuidToShortId } from "./uuid";
 import { community } from "./community-schema";
@@ -67,9 +70,36 @@ export const calendarRelations = relations(calendar, ({ one }) => ({
   }),
 }));
 
-export const eventRelations = relations(event, ({ one }) => ({
+export const eventRelations = relations(event, ({ one, many }) => ({
   community: one(community, {
     fields: [event.communityId],
     references: [community.id],
+  }),
+  clicks: many(eventClick),
+}));
+
+/**
+ * Event clicks table - tracks daily click counts per event
+ */
+export const eventClick = pgTable(
+  "event_click",
+  {
+    eventId: text("eventId")
+      .notNull()
+      .references(() => event.id, { onDelete: "cascade" }),
+    date: date("date").notNull(),
+    count: integer("count").notNull().default(0),
+  },
+  (table) => [
+    primaryKey({ columns: [table.eventId, table.date] }),
+    index("event_click_eventId_idx").on(table.eventId),
+    index("event_click_date_idx").on(table.date),
+  ]
+);
+
+export const eventClickRelations = relations(eventClick, ({ one }) => ({
+  event: one(event, {
+    fields: [eventClick.eventId],
+    references: [event.id],
   }),
 }));

@@ -1,7 +1,14 @@
 import { component$ } from "@builder.io/qwik";
+import { server$ } from "@builder.io/qwik-city";
 import { formatDistanceStrict } from "date-fns";
 import format from "~/units/date-tz";
-import type { Event } from "~/lib/database";
+import { getDatabase, EventClicks, type Event } from "~/lib/database";
+
+const trackClick = server$(async function (eventId: string) {
+  const db = getDatabase(this.env);
+  const eventClicks = new EventClicks(db);
+  await eventClicks.increment(eventId);
+});
 
 interface EventLinkProps {
   uid?: string;
@@ -27,6 +34,7 @@ export default component$<EventLinkProps>(({ uid, event }) => {
       class="block p-1 my-4 border rounded-md border-border text-primary"
       href={form || `${uid ? `/${uid}` : ""}/events/${event.id}?adult=1`}
       target={`bdsmer-${event.id}`}
+      onClick$={() => trackClick(event.id)}
     >
       <div class="block relative px-2 py-2 overflow-hidden bg-box-background">
         <div class="text-sm pb-2 flex items-center gap-1">

@@ -6,3 +6,6 @@ export type { Calendar } from "./calendars";
 
 export { Communities, createCommunitiesQuery } from "./communities";
 export type { Community, Space } from "./communities";
+
+export { EventClicks, createEventClicksQuery } from "./event-clicks";
+export type { EventClick } from "./event-clicks";

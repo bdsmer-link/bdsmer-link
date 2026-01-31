@@ -51,7 +51,7 @@ export { calendarSchema, communitySchema };
 
 // Re-export commonly used items
 export { community } from "./community-schema";
-export { calendar, event } from "./calendar-schema";
+export { calendar, event, eventClick } from "./calendar-schema";
 
 // Re-export query classes and factories
 export {
@@ -61,8 +61,10 @@ export {
   createCalendarsQuery,
   Communities,
   createCommunitiesQuery,
+  EventClicks,
+  createEventClicksQuery,
 } from "./queries";
-export type { Event, Calendar, Community, Space } from "./queries";
+export type { Event, Calendar, Community, Space, EventClick } from "./queries";
 
 // Re-export UUID utilities
 export { shortIdToUuid, uuidToShortId } from "./uuid";
