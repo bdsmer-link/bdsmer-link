@@ -51,6 +51,11 @@ export const useCommunity = routeLoader$<CommunityLoaderPayload>(
         result.events = map(eventList, (event) => ({ ...event }));
       }
 
+      // Set cache control and Vercel cache tag for cache invalidation
+      req.cacheControl({ public: true, maxAge: 0, sMaxAge: 3600 });
+      req.headers.set("Vercel-CDN-Cache-Control", "public, s-maxage=3600");
+      req.headers.set("Vercel-Cache-Tag", `community-${community.id}`);
+
       return result;
     } catch (error) {
       if (error instanceof Response) throw req.send(error);

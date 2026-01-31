@@ -16,6 +16,12 @@ export const useEvents = routeLoader$(async (req) => {
   const db = getDatabase(req.env);
   const events = new Events(db);
   const result = await events.list();
+
+  // Set cache control and Vercel cache tag for cache invalidation
+  req.cacheControl({ public: true, maxAge: 0, sMaxAge: 3600 });
+  req.headers.set("Vercel-CDN-Cache-Control", "public, s-maxage=3600");
+  req.headers.set("Vercel-Cache-Tag", "home");
+
   return result as Event[];
 });
 
