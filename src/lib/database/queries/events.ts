@@ -1,4 +1,4 @@
-import { eq, sql, and, or, gt, isNull, isNotNull } from "drizzle-orm";
+import { eq, sql, and, gt, isNotNull } from "drizzle-orm";
 import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
 import type { Schema } from "../index";
 import { community } from "../community-schema";
@@ -10,8 +10,6 @@ export type Event = {
   cSummary: string | null;
   startAt: Date;
   endAt: Date;
-  show: boolean | null;
-  cShow: boolean | null;
   communityId: string;
   form: string | null;
   cForm: string | null;
@@ -30,8 +28,6 @@ type EventRow = {
   cSummary: string | null;
   startAt: Date | null;
   endAt: Date | null;
-  show: boolean | null;
-  cShow: boolean | null;
   communityId: string;
   form: string | null;
   cForm: string | null;
@@ -62,8 +58,6 @@ export class Events {
         cSummary: event.cSummary,
         startAt: event.startAt,
         endAt: event.endAt,
-        show: event.show,
-        cShow: event.cShow,
         communityId: event.communityId,
         form: event.form,
         cForm: event.cForm,
@@ -91,8 +85,6 @@ export class Events {
         cSummary: event.cSummary,
         startAt: event.startAt,
         endAt: event.endAt,
-        show: event.show,
-        cShow: event.cShow,
         communityId: event.communityId,
         form: event.form,
         cForm: event.cForm,
@@ -108,11 +100,7 @@ export class Events {
       .where(
         and(
           isNotNull(event.communityId),
-          gt(event.startAt, sql`now() - interval '1 day'`),
-          or(
-            eq(event.show, true),
-            and(isNull(event.show), eq(event.cShow, true))
-          )
+          gt(event.startAt, sql`now() - interval '1 day'`)
         )
       )
       .orderBy(event.startAt);
@@ -128,8 +116,6 @@ export class Events {
         cSummary: event.cSummary,
         startAt: event.startAt,
         endAt: event.endAt,
-        show: event.show,
-        cShow: event.cShow,
         communityId: event.communityId,
         form: event.form,
         cForm: event.cForm,
@@ -145,11 +131,7 @@ export class Events {
       .where(
         and(
           eq(event.communityId, communityId),
-          gt(event.startAt, sql`now() - interval '1 day'`),
-          or(
-            eq(event.show, true),
-            and(isNull(event.show), eq(event.cShow, true))
-          )
+          gt(event.startAt, sql`now() - interval '1 day'`)
         )
       )
       .orderBy(event.startAt);
@@ -168,8 +150,6 @@ export class Events {
         cSummary: event.cSummary,
         startAt: event.startAt,
         endAt: event.endAt,
-        show: event.show,
-        cShow: event.cShow,
         communityId: event.communityId,
         form: event.form,
         cForm: event.cForm,
@@ -185,11 +165,7 @@ export class Events {
       .where(
         and(
           eq(community.uid, uid),
-          gt(event.startAt, sql`now() - interval '1 day'`),
-          or(
-            eq(event.show, true),
-            and(isNull(event.show), eq(event.cShow, true))
-          )
+          gt(event.startAt, sql`now() - interval '1 day'`)
         )
       )
       .orderBy(event.startAt);

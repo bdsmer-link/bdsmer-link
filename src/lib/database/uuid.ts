@@ -58,6 +58,24 @@ export function uuidToShortId(uuid: string): string {
   return result.padStart(SHORT_ID_LENGTH, "0");
 }
 
+const SHORT_ID_REGEX = /^[0-9A-Za-z]{22}$/;
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Check if a string is a valid short ID format (22 base62 characters)
+ */
+export function isShortId(str: string): boolean {
+  return SHORT_ID_REGEX.test(str);
+}
+
+/**
+ * Check if a string is a valid UUID format
+ */
+export function isUuid(str: string): boolean {
+  return UUID_REGEX.test(str);
+}
+
 /**
  * Convert a short ID back to UUID (base62 decoding)
  * Returns null if the input is not a valid shortId (wrong length or invalid characters)

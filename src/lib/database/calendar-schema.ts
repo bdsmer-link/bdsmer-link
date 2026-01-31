@@ -3,7 +3,6 @@ import {
   pgTable,
   text,
   timestamp,
-  boolean,
   index,
   uuid,
   integer,
@@ -49,8 +48,6 @@ export const event = pgTable(
       .references(() => community.id, { onDelete: "cascade" }),
     cForm: text("cForm"), // Custom form
     cDescription: text("cDescription"), // Custom description
-    show: boolean("show"), // Visibility flag
-    cShow: boolean("cShow").default(true), // Custom visibility flag
     keywords: text("keywords").array(), // Event keywords/tags
     createdAt: timestamp("createdAt", { withTimezone: true })
       .defaultNow()

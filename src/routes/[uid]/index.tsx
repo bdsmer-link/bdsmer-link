@@ -11,7 +11,6 @@ import {
   Communities,
   Events,
   Calendars,
-  shortIdToUuid,
   type Community,
   type Event,
 } from "~/lib/database";
@@ -31,16 +30,7 @@ export const useCommunity = routeLoader$<CommunityLoaderPayload>(
     const communityUid = req.params.uid;
 
     try {
-      // Try shortId first, then fallback to uid
-      const uuid = shortIdToUuid(communityUid);
-
-      let community = uuid ? await communities.load(uuid) : null;
-
-      // If not found by shortId, try by uid
-      if (!community) {
-        community = await communities.loadByUid(communityUid);
-      }
-
+      const community = await communities.load(communityUid);
       if (!community) throw new Response("Not Found", { status: 404 });
 
       const result: CommunityLoaderPayload = { ...community };
